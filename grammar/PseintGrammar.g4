@@ -72,6 +72,7 @@ oper_dos        : MAS
                 | MUL
                 | DIV
                 | MOD
+                | POT
                 | OP_Y
                 | OP_OR
                 | GEQ
