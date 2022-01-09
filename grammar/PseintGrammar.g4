@@ -37,13 +37,15 @@ def_vars        : ID (COMA ID)*;
 
 dimension       : DIMENSION dim_vars PYC;
 dim_vars        : ID COR_IZQ dim_sizes COR_DER (COMA ID COR_IZQ dim_sizes COR_DER )*;
-dim_sizes       : num_expr (COMA num_expr)*;
+dim_sizes       : expr (COMA expr)*;
+
+
 num_expr        : num_expr oper_num num_expr
                 | PAR_IZQ num_expr PAR_DER
                 | MENOS num_expr
                 | TD_REAL
                 | TD_ENTERO
-                //| ID
+                | ID
                 ;
 
 oper_num        : MAS
@@ -51,6 +53,7 @@ oper_num        : MAS
                 | MUL
                 | DIV
                 | MOD
+                | POT
                 ;
 
 asignacion      : ID (COR_IZQ array_pos COR_DER)? ASIG expr PYC;
@@ -63,8 +66,8 @@ expr            : expr oper_dos expr
                 | TD_REAL
                 | TD_ENTERO
                 | TD_CADENA
-                | TRUE
-                | FALSE
+                | VERDADERO
+                | FALSO
                 ;
 
 oper_dos        : MAS
@@ -95,10 +98,9 @@ func_par        : expr (COMA expr)*
 leer            : LEER ID (COR_IZQ array_pos COR_DER)? (COMA ID (COR_IZQ array_pos COR_DER)?)* PYC;
 escribir        : ESCRIBIR expr (COMA expr)* PYC;
 si              : SI expr ENTONCES command+ (SINO command+)? FINSI;
-//segun           : SEGUN expr HACER (CASE expr DOSP command+)* (DE OTRO MODO DOSP command+)? FINSEGUN;
-segun           : SEGUN expr HACER (expr DOSP command+)* (DE OTRO MODO DOSP command+)? FINSEGUN;
+segun           : SEGUN expr HACER (CASO expr DOSP command+)* (DE OTRO MODO DOSP command+)? FINSEGUN;
 mientras        : MIENTRAS expr HACER command+ FINMIENTRAS;
-repetir         : REPETIR commands HASTA QUE expr PYC;
+repetir         : REPETIR commands HASTA QUE expr;
 para            : PARA ID(COR_IZQ array_pos COR_DER)? ASIG expr HASTA expr (CON PASO expr)? HACER commands FINPARA;
 borrar          : (BORRAR | LIMPIAR) PANTALLA PYC;
 esperar         : ESPERAR (tiempo|tecla) PYC;
@@ -137,7 +139,7 @@ SINO            : S I N O;
 FINSI           : F I N S I;
 SEGUN           : S E G U N;
 HACER           : H A C E R;
-CASE            : C A S E;
+CASO            : C A S O;
 DE              : D E;
 OTRO            : O T R O;
 MODO            : M O D O;
@@ -184,8 +186,8 @@ TD_REAL         : [0-9]+([.][0-9]+);
 TD_ENTERO       : [0-9]+;
 TD_CADENA       : ('"' | '\'') .*? ('"' | '\'') ;
 
-TRUE            : V E R D A D E R O;
-FALSE           : F A L S O;
+VERDADERO            : V E R D A D E R O;
+FALSO           : F A L S O;
 
 PYC             : ';';
 ASIG            : '<-';

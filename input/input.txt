@@ -1,0 +1,14 @@
+
+
+funcion x<-ftest(b,c)
+    definir d,e como entero;
+    Dimension d[5,5],e[5,5,4,2,1];
+finfuncion
+
+
+Proceso sin_titulo
+	definir d como entero;
+	definir e como entero;
+	definir modulo como entero;
+    Dimension d[1+2-3*4/5%6^7 mod 8 & falso | modulo];
+FinProceso
