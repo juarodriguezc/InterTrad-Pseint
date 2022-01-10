@@ -303,6 +303,30 @@ public class PseintGrammarBaseListener implements PseintGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSiparte(PseintGrammarParser.SiparteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSiparte(PseintGrammarParser.SiparteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSino(PseintGrammarParser.SinoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSino(PseintGrammarParser.SinoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSegun(PseintGrammarParser.SegunContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -310,6 +334,30 @@ public class PseintGrammarBaseListener implements PseintGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSegun(PseintGrammarParser.SegunContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCases(PseintGrammarParser.CasesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCases(PseintGrammarParser.CasesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefcase(PseintGrammarParser.DefcaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefcase(PseintGrammarParser.DefcaseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

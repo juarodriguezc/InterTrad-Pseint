@@ -1,8 +1,14 @@
 import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.misc.Interval;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PSeintToPython extends PseintGrammarBaseListener {
     //Strings de traduccion
@@ -37,13 +43,61 @@ public class PSeintToPython extends PseintGrammarBaseListener {
     }
 
     public String traducirExpr(String expr){
+        //TODO arreglar las expresiones regulares para evitar doble cambio y algunos machetazos
         String rExpr = expr;
+        //Encapsular las cadenas para evitar su modificación
+        LinkedList<String> cadenas = new LinkedList<>();
+        Pattern pattern = Pattern.compile("[\\'\"](.*?)[\\'\"]");
+        Matcher matcher = pattern.matcher(rExpr);
+        while( matcher.find() ) {
+            cadenas.add(matcher.group(1));
+        }
+        for(int i = 0; i< cadenas.size(); i++){
+            rExpr = rExpr.replaceAll("[\\'\"]"+cadenas.get(i)+"[\\'\"]","#_str"+i+"_#");
+        }
         //Operadores Aritmeticos
         rExpr = rExpr.replaceAll("\\^", "**");
-        rExpr = rExpr.replaceAll("mod", "%");
+        rExpr = rExpr.replaceAll("\\s(mod)\\s", "%");
         //Operadores logicos
         rExpr = rExpr.replaceAll("(v|V)(e|E)(r|R)(d|D)(a|A)(d|D)(e|E)(r|R)(o|O)", "True");
         rExpr = rExpr.replaceAll("(f|F)(a|A)(l|L)(s|S)(o|O)", "False");
+        rExpr = rExpr.replaceAll("\\s(y|Y)\\s", " and ");
+        rExpr = rExpr.replaceAll("&", " and ");
+        rExpr = rExpr.replaceAll("\\s(o|O)\\s", " or ");
+        rExpr = rExpr.replaceAll("\\|", " or ");
+        //Operadores relacionales
+        rExpr = rExpr.replaceAll(">=", " _geq ");
+        rExpr = rExpr.replaceAll("<=", " _leq ");
+        rExpr = rExpr.replaceAll("<>", " _dif ");
+        rExpr = rExpr.replaceAll("=", " == ");
+        //Cambio segundo
+        rExpr = rExpr.replaceAll(" _geq ", ">=");
+        rExpr = rExpr.replaceAll(" _leq ", "<=");
+        rExpr = rExpr.replaceAll(" _dif ", "!=");
+        //Tercer cambio
+        String[] nstr;
+        rExpr = rExpr.replace("(", "#(#");
+        rExpr = rExpr.replace("[", "#[#");
+        rExpr = rExpr.replace(")", "#)#");
+        rExpr = rExpr.replace("]", "#]#");
+        rExpr = rExpr.replace("~", "#~#");
+        rExpr = rExpr.replace(" and ", "# and #");
+        rExpr = rExpr.replace(" or ", "# or #");
+        nstr = rExpr.split("#");
+        rExpr = "";
+        for (String str:nstr) {
+            if(str.equals("no") || str.equals("NO") || str.equals("No") || str.equals("nO"))str = "not";
+            //System.out.println(str);
+            rExpr += str;
+        }
+        rExpr = rExpr.replaceAll("~"," not ");
+        //System.out.println("Expr: "+rExpr);
+        rExpr = rExpr.replaceAll("\\s(n|N)(o|O)\\s", " not ");
+        rExpr = rExpr.replaceAll("\\s(n|N)(o|O)\\s", " not ");
+        //Desencapsular cadenas
+        for(int i = 0; i< cadenas.size(); i++){
+            rExpr = rExpr.replaceAll("_str"+i+"_","\""+cadenas.get(i)+"\"");
+        }
         return rExpr;
     }
 
@@ -151,15 +205,13 @@ public class PSeintToPython extends PseintGrammarBaseListener {
                 System.exit(-1);
             }
             //tradPart[currentCode] +=    printTabs()+ctx.dim_vars().ID(i)+" = np.empty(["+ctx.dim_vars().dim_sizes(i).getText()+"]";
-            tradPart[currentCode] +=    printTabs()+ctx.dim_vars().ID(i)+" = np.empty(["+traducirExpr(ctx.dim_vars().dim_sizes(i).getText())+"]";
-            //Reemplazar simbolos
-            String temp = ctx.dim_vars().dim_sizes(i).getText();
+            //tradPart[currentCode] +=    printTabs()+ctx.dim_vars().ID(i)+" = np.empty(["+traducirExpr(ctx.dim_vars().dim_sizes(i).getText())+"]";
+            int a = ctx.dim_vars().dim_sizes(i).start.getStartIndex();
+            int b = ctx.dim_vars().dim_sizes(i).stop.getStopIndex();
+            Interval interval = new Interval(a,b);
 
+            tradPart[currentCode] +=    printTabs()+ctx.dim_vars().ID(i)+" = np.empty(["+traducirExpr(ctx.dim_vars().dim_sizes(i).start.getInputStream().getText(interval))+"]";
 
-
-
-
-            System.out.println("Temp: "+temp);
             if (varsTableF.get(currFunction).get(ctx.dim_vars().ID(i).toString()).equals("numerico")) tradPart[currentCode] +=    "";
             else if (varsTableF.get(currFunction).get(ctx.dim_vars().ID(i).toString()).equals("logico")) tradPart[currentCode] +=    ", dtype = bool";
             else tradPart[currentCode] +=    ", dtype = object";
@@ -171,8 +223,134 @@ public class PSeintToPython extends PseintGrammarBaseListener {
         importTable.put("numpy",true);
     }
 
+    @Override public void enterDim_vars(PseintGrammarParser.Dim_varsContext ctx) {  }
+
+    @Override public void enterDim_sizes(PseintGrammarParser.Dim_sizesContext ctx) {  }
+
     @Override public void enterExpr(PseintGrammarParser.ExprContext ctx) {
+        if(ctx.ID() != null){
+            if(!varsTableF.get(currFunction).containsKey(ctx.ID().getText()) && !functionsTable.contains(ctx.ID().getText())){
+                int line = ctx.ID().getSymbol().getLine();;
+                int col = ctx.ID().getSymbol().getCharPositionInLine()+1;
+                System.err.printf("<%d:%d> Error semantico, la variable \"" + ctx.ID().getText() + "\" no existe.\n",line,col);
+                System.exit(-1);
+            }
+        }
     }
+
+    @Override public void exitExpr(PseintGrammarParser.ExprContext ctx) {  }
+
+    @Override public void enterAsignacion(PseintGrammarParser.AsignacionContext ctx) {
+        if(!varsTableF.get(currFunction).containsKey(ctx.ID().toString()) || functionsTable.contains(ctx.ID().toString())){
+            int line = ctx.ID().getSymbol().getLine();;
+            int col = ctx.ID().getSymbol().getCharPositionInLine()+1;
+            System.err.printf("<%d:%d> Error semantico, la variable \"" + ctx.ID().getText() + "\" no es válida.\n",line,col);
+            System.exit(-1);
+        }
+        tradPart[currentCode] +=    printTabs() + ctx.ID();
+        if(ctx.COR_IZQ() != null){
+            int a = ctx.array_pos().start.getStartIndex();
+            int b = ctx.array_pos().stop.getStopIndex();
+            Interval interval = new Interval(a,b);
+            tradPart[currentCode] += "["+traducirExpr(ctx.array_pos().start.getInputStream().getText(interval))+"]";
+        }
+    }
+
+    @Override public void exitAsignacion(PseintGrammarParser.AsignacionContext ctx) {
+        int a = ctx.expr().start.getStartIndex();
+        int b = ctx.expr().stop.getStopIndex();
+        Interval interval = new Interval(a,b);
+        tradPart[currentCode] +=    " = "+traducirExpr(ctx.expr().start.getInputStream().getText(interval))+"       \n";
+    }
+
+    @Override public void enterLeer(PseintGrammarParser.LeerContext ctx) {
+        for(int i=0 ; i<ctx.ID().size(); i++){
+            if(!varsTableF.get(currFunction).containsKey(ctx.ID(i).toString()) || functionsTable.contains(ctx.ID(i).toString())){
+                int line = ctx.ID(i).getSymbol().getLine();;
+                int col = ctx.ID(i).getSymbol().getCharPositionInLine()+1;
+                System.err.printf("<%d:%d> Error semantico, la variable \"" + ctx.ID(i).getText() + "\" no es válida.\n",line,col);
+                System.exit(-1);
+            }
+            tradPart[currentCode] +=    printTabs()+ctx.ID(i).toString();
+            if(ctx.array_pos(i) != null){
+                int a = ctx.array_pos(i).start.getStartIndex();
+                int b = ctx.array_pos(i).stop.getStopIndex();
+                Interval interval = new Interval(a,b);
+                tradPart[currentCode] += "["+traducirExpr(ctx.array_pos(i).start.getInputStream().getText(interval))+"]";
+            }
+            tradPart[currentCode] +=    " = eval(input())        \n";
+        }
+    }
+
+    @Override public void exitLeer(PseintGrammarParser.LeerContext ctx) { }
+
+    @Override public void enterEscribir(PseintGrammarParser.EscribirContext ctx) {
+        tradPart[currentCode] +=    printTabs()+"print( ";
+        for(int i = 0; i < ctx.expr().size(); i++){
+            int a = ctx.expr(i).start.getStartIndex();
+            int b = ctx.expr(i).stop.getStopIndex();
+            Interval interval = new Interval(a,b);
+
+            tradPart[currentCode] +=    traducirExpr(ctx.expr(i).start.getInputStream().getText(interval)) + " , ";
+        }
+    }
+
+    @Override public void exitEscribir(PseintGrammarParser.EscribirContext ctx) {
+        tradPart[currentCode] +=    "sep=\"\" )         \n";
+    }
+
+    @Override public void enterSi(PseintGrammarParser.SiContext ctx) {  }
+
+    @Override public void exitSi(PseintGrammarParser.SiContext ctx) {  }
+
+    @Override public void enterSiparte(PseintGrammarParser.SiparteContext ctx) {
+        int a = ctx.expr().start.getStartIndex();
+        int b = ctx.expr().stop.getStopIndex();
+        Interval interval = new Interval(a,b);
+        tradPart[currentCode] +=    printTabs()+"if( "+traducirExpr(ctx.expr().start.getInputStream().getText(interval))+" ):       \n";
+        tabs += 1;
+    }
+
+    @Override public void exitSiparte(PseintGrammarParser.SiparteContext ctx) {
+        tabs -= 1;
+    }
+
+    @Override public void enterSino(PseintGrammarParser.SinoContext ctx) {
+        tradPart[currentCode] +=    printTabs()+"else:              \n";
+        tabs += 1;
+    }
+
+    @Override public void exitSino(PseintGrammarParser.SinoContext ctx) {
+        tabs -= 1;
+    }
+
+    @Override public void enterSegun(PseintGrammarParser.SegunContext ctx) {
+        int a = ctx.expr().start.getStartIndex();
+        int b = ctx.expr().stop.getStopIndex();
+        Interval interval = new Interval(a,b);
+
+        tradPart[currentCode] +=    printTabs()+"_expr = "+traducirExpr(ctx.expr().start.getInputStream().getText(interval))+"      \n";
+        if(ctx.cases().size() == 0){
+            tradPart[currentCode] +=    printTabs()+"if (False):\n";
+            tradPart[currentCode] +=    printTabs()+"\tpass\n";
+        }
+    }
+
+    @Override public void exitSegun(PseintGrammarParser.SegunContext ctx) {
+
+    }
+
+    @Override public void enterCases(PseintGrammarParser.CasesContext ctx) {
+        System.out.println("if ( _expr == "+ctx.expr().getText()+" ):");
+        System.out.println("Index: "+ctx.expr().getRuleIndex());
+        
+    }
+
+    @Override public void exitCases(PseintGrammarParser.CasesContext ctx) { }
+
+    @Override public void enterDefcase(PseintGrammarParser.DefcaseContext ctx) { }
+
+    @Override public void exitDefcase(PseintGrammarParser.DefcaseContext ctx) { }
 
     @Override public void enterMain(PseintGrammarParser.MainContext ctx) {
         currentCode = 2;
@@ -185,8 +363,8 @@ public class PSeintToPython extends PseintGrammarBaseListener {
 
     @Override public void exitMain(PseintGrammarParser.MainContext ctx) {
         tabs -= 1;
-        tradPart[currentCode] +=     "\nif __name__==\"__main__\":     \n" +
-                    "\t     main()";
+        tradPart[currentCode] +=        "\nif __name__==\"__main__\":     \n" +
+                                        "\t     main()";
     }
 
     @Override public void enterNum_expr(PseintGrammarParser.Num_exprContext ctx) {
@@ -197,8 +375,8 @@ public class PSeintToPython extends PseintGrammarBaseListener {
                 System.err.printf("<%d:%d> Error semantico, la variable \"" + ctx.ID().getText() + "\" no existe.\n",line,col);
                 System.exit(-1);
             }
-            System.out.println(ctx.ID().toString());
         }
-
     }
+
+
 }

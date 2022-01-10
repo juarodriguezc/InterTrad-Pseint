@@ -154,11 +154,35 @@ public interface PseintGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSi(PseintGrammarParser.SiContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PseintGrammarParser#siparte}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSiparte(PseintGrammarParser.SiparteContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PseintGrammarParser#sino}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSino(PseintGrammarParser.SinoContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PseintGrammarParser#segun}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSegun(PseintGrammarParser.SegunContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PseintGrammarParser#cases}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCases(PseintGrammarParser.CasesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PseintGrammarParser#defcase}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefcase(PseintGrammarParser.DefcaseContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PseintGrammarParser#mientras}.
 	 * @param ctx the parse tree

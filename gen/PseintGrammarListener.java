@@ -247,6 +247,26 @@ public interface PseintGrammarListener extends ParseTreeListener {
 	 */
 	void exitSi(PseintGrammarParser.SiContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PseintGrammarParser#siparte}.
+	 * @param ctx the parse tree
+	 */
+	void enterSiparte(PseintGrammarParser.SiparteContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PseintGrammarParser#siparte}.
+	 * @param ctx the parse tree
+	 */
+	void exitSiparte(PseintGrammarParser.SiparteContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PseintGrammarParser#sino}.
+	 * @param ctx the parse tree
+	 */
+	void enterSino(PseintGrammarParser.SinoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PseintGrammarParser#sino}.
+	 * @param ctx the parse tree
+	 */
+	void exitSino(PseintGrammarParser.SinoContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PseintGrammarParser#segun}.
 	 * @param ctx the parse tree
 	 */
@@ -256,6 +276,26 @@ public interface PseintGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSegun(PseintGrammarParser.SegunContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PseintGrammarParser#cases}.
+	 * @param ctx the parse tree
+	 */
+	void enterCases(PseintGrammarParser.CasesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PseintGrammarParser#cases}.
+	 * @param ctx the parse tree
+	 */
+	void exitCases(PseintGrammarParser.CasesContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PseintGrammarParser#defcase}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefcase(PseintGrammarParser.DefcaseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PseintGrammarParser#defcase}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefcase(PseintGrammarParser.DefcaseContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PseintGrammarParser#mientras}.
 	 * @param ctx the parse tree

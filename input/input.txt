@@ -1,14 +1,21 @@
 
 
-funcion x<-ftest(b,c)
-    definir d,e como entero;
-    Dimension d[5,5],e[5,5,4,2,1];
-finfuncion
-
 
 Proceso sin_titulo
-	definir d como entero;
-	definir e como entero;
-	definir modulo como entero;
-    Dimension d[1+2-3*4/5%6^7 mod 8 & falso | modulo];
+	definir a como entero;
+	dimension a[5,5];
+	leer a[0,0];
+    si a[0,0]>5 Entonces
+        Escribir "siuuuu";
+    SiNo
+        Escribir "nooouuu";
+    FinSi
+    segun a[0,0] hacer
+        0:
+            escribir "0";
+        1:
+            escribir "1";
+        de otro modo:
+            escribir "diferente";
+    finsegun
 FinProceso

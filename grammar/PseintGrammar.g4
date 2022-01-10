@@ -97,8 +97,13 @@ func_par        : expr (COMA expr)*
 
 leer            : LEER ID (COR_IZQ array_pos COR_DER)? (COMA ID (COR_IZQ array_pos COR_DER)?)* PYC;
 escribir        : ESCRIBIR expr (COMA expr)* PYC;
-si              : SI expr ENTONCES command+ (SINO command+)? FINSI;
-segun           : SEGUN expr HACER (CASO expr DOSP command+)* (DE OTRO MODO DOSP command+)? FINSEGUN;
+si              : siparte sino? FINSI;
+siparte         : SI expr ENTONCES command+;
+sino            : SINO command+;
+//segun           : SEGUN expr HACER (CASO expr DOSP command+)* (DE OTRO MODO DOSP command+)? FINSEGUN;
+segun           : SEGUN expr HACER cases* defcase? FINSEGUN;
+cases           : expr DOSP command+;
+defcase         : DE OTRO MODO DOSP command+;
 mientras        : MIENTRAS expr HACER command+ FINMIENTRAS;
 repetir         : REPETIR commands HASTA QUE expr;
 para            : PARA ID(COR_IZQ array_pos COR_DER)? ASIG expr HASTA expr (CON PASO expr)? HACER commands FINPARA;
@@ -186,7 +191,7 @@ TD_REAL         : [0-9]+([.][0-9]+);
 TD_ENTERO       : [0-9]+;
 TD_CADENA       : ('"' | '\'') .*? ('"' | '\'') ;
 
-VERDADERO            : V E R D A D E R O;
+VERDADERO       : V E R D A D E R O;
 FALSO           : F A L S O;
 
 PYC             : ';';
