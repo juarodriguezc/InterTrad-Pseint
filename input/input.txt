@@ -1,120 +1,75 @@
-Algoritmo Cajero_Automatico
+//Ejemplo 11 - Animacion misil
+Proceso Misil
 
-    Definir saldo, monto como Real;
-    Definir f, contador, busca, opc, salir como Entero;
-    Definir usuarios, clave como Caracter;
-    Dimension saldo[5];
-    Dimension usuarios[5];	//5 USUARIOS
+    Escribir "Presione una tecla para iniciar el lanzamiento!";
+    Esperar Tecla;
 
-    //SALDO	DEL CLIENTE
-    saldo[0] <- 1000;
-    saldo[1] <- 500;
-    saldo[2] <- 0;
-    saldo[3] <- 2500;
-    saldo[4] <- 1000;
+    Definir cohete como Texto;
+    Definir i,j,estado como Enteros;
 
-    // CLAVES DE ACCESO
-    usuarios[0] <- '5555';
-    usuarios[1] <- '1111';
-    usuarios[2] <- '8888';
-    usuarios[3] <- '3333';
-    usuarios[4] <- '2222';
+    // el arreglo cohete tiene el dibujo del cohete como lineas de texto
+    dimension cohete[9];
+    cohete[0]<-"   /|\   ";
+    cohete[1]<-"   |B|   ";
+    cohete[2]<-"   |O|   ";
+    cohete[3]<-"   |M|   ";
+    cohete[4]<-"   |B|   ";
+    cohete[5]<-"  //|\\  ";
+    cohete[6]<-" ******* ";
+    cohete[7]<-"* * * * *";
+    cohete[8]<-" * * * * ";
 
-    contador <- 0;
-    busca <- 0;
-    opc <- 0;
-    monto <- 0.0;
-
-    Mientras (contador <> 4 ) Hacer
-
-        Si (contador <> 3 ) Entonces
-
-            Escribir "***** CAJERO AUTOMÁTICO *****";
-            Escribir "*                           *";
-            Escribir "*       INTENTO NRO ", contador + 1, "       *";
-            Escribir "*                           *";
-            Escribir "*****************************";
-            Escribir " ";
-            Escribir "CLAVE : ";
-            Leer clave;
-
+    // primero se muestra la primer parte del dibujo y la cuenta regresiva
+    Para i<-1 hasta 11 Hacer
+        Borrar Pantalla;
+        Para j<-1 hasta 15 Hacer
             Escribir "";
+        FinPara
+        Para j<-0 hasta 5 Hacer
+            Escribir cohete[j];
+        FinPara
+        Escribir "";
+        Escribir "Lanzamiento en ",11-i;
+        Esperar 1 Segundo;
+    FinPara
 
+    // despues se muestra el dibujo completo y cada vez mas arriba
+    Para i<-1 hasta 15 Hacer
+        Borrar Pantalla;
+        Para j<-i hasta 15 Hacer
+            Escribir "";
+        FinPara
+        Para j<-0 hasta 7 Hacer
+            Escribir cohete[j];
+        FinPara
+        si i>1 Entonces
+            Escribir " * * * * ";
+        finsi
+        Esperar 1/i Segundo;
+    FinPara
 
+    // finalmente se va modificando el dibujo para hacer la explosion
+    // estado tiene un entero que dice en que parte de la explosion va cada linea del dibujo
+    Dimension estado[6];
+    estado[0]<-3; estado[1]<-2; estado[2]<-1;
+    estado[3]<-2; estado[4]<-3; estado[5]<-4;
+    Para i<-1 hasta 10 Hacer
+        Borrar Pantalla;
+        Para j<-0 hasta 5 Hacer
+            Estado[j]<-Estado[j]-1;
+            segun Estado[j] Hacer
+                0:  cohete[j]<-"    +    ";
+                -1: cohete[j]<-"   +X+   ";
+                -5: cohete[j]<-"   +X+   ";
+                -2: cohete[j]<-"  +XXX+  ";
+                -4: cohete[j]<-"  +XXX+  ";
+                -3: cohete[j]<-" +XXXXX+ ";
+                -6: cohete[j]<-"         ";
+            FinSegun
+            Escribir cohete[j];
+        FinPara
 
+        Esperar 0.2 Segundos;
+    FinPara
 
-
-
-            Limpiar Pantalla;
-
-            Para f <- 0 hasta 4 con paso 1 hacer
-                Si (clave = usuarios[f]) Entonces
-                    busca <- f;
-                    f <- 5;
-                FinSi
-            FinPara
-
-            Si (busca <> 0) Entonces
-                salir <- 0;
-                Mientras (salir <> 4) Hacer
-                    Limpiar Pantalla;
-                    Escribir "******************************";
-                    Escribir "*                            *";
-                    Escribir "*    BIENVENIDOS AL BANCO    *";
-                    Escribir "*                            *";
-                    Escribir "******************************";
-                    Escribir "";
-                    Escribir "MENU DE OPCIONES";
-                    Escribir "1. VER SALDO";
-                    Escribir "2. DEPOSITO";
-                    Escribir "3. RETIRO";
-                    Escribir "4. SALIR";
-                    Escribir "";
-                    Escribir "OPCIÓN : ";
-                    Leer opc;
-                    Escribir "";
-
-
-
-
-
-                    Segun (opc) Hacer
-                        1: 	Escribir "SALDO ACTUAL : ", saldo[busca];
-                            Esperar Tecla;
-
-                        2: 	Escribir "MONTO A DEPOSITAR : ";
-                            Leer monto;
-                            saldo[busca] <- saldo[busca] + monto;
-
-                        3: Escribir "MONTO A RETIRAR : ";
-                            Leer monto;
-
-                            Si (monto > saldo[busca]) Entonces
-                                Escribir "!Error no dispone de ese Saldo!..";
-                                Esperar Tecla;
-                            SiNo
-                                saldo[busca] <- saldo[busca] - monto;
-                            FinSi
-
-                        4: 	Escribir "Gracias por su vísita, regrese pronto...";
-                            salir <- 4;
-                            contador <- 4;
-                    FinSegun
-                FinMientras
-
-            SiNo
-                contador <- contador + 1;
-            FinSi
-
-        SiNo
-            Escribir "*****************************";
-            Escribir "*                           *";
-            Escribir "*     TARJETA BLOQUEADA     *";
-            Escribir "*                           * ";
-            Escribir "*****************************";
-            contador <- 4;
-        FinSi
-
-    FinMientras
-
-FinAlgoritmo
+FinProceso

@@ -63,7 +63,10 @@ public class PSeintToPython extends PseintGrammarBaseListener {
             cadenas.add(matcher.group(1));
         }
         for(int i = 0; i< cadenas.size(); i++){
+            //System.out.println(cadenas.get(i));
+            //rExpr = rExpr.replace("\\","\\\\");
             rExpr = rExpr.replace("\""+cadenas.get(i)+"\"","#_str"+i+"_#");
+            //System.out.println(rExpr);
         }
         rExpr = rExpr.toLowerCase();
         //Operadores Aritmeticos
@@ -108,8 +111,10 @@ public class PSeintToPython extends PseintGrammarBaseListener {
         rExpr = rExpr.replaceAll("\\s(n|N)(o|O)\\s", " not ");
         //Desencapsular cadenas
         for(int i = 0; i< cadenas.size(); i++){
-            rExpr = rExpr.replaceAll("_str"+i+"_","\""+cadenas.get(i)+"\"");
+            //System.out.println("Save: "+cadenas.get(i));
+            rExpr = rExpr.replace("_str"+i+"_","\""+cadenas.get(i)+"\"");
         }
+        //System.out.println(rExpr);
         return rExpr;
     }
 

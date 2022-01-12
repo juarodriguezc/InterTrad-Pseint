@@ -1,169 +1,139 @@
 import numpy as np                 
+import time                        
 import os            
 
 cls = lambda: os.system('cls' if os.name=='nt' else 'clear')  
 def main():                     
+	#escribir
+	print( "Presione una tecla para iniciar el lanzamiento!" , sep="" )         
+	input()
 	#dimensionamiento
-	saldo = np.empty([int(5)], dtype = object)          
-	#dimensionamiento
-	usuarios = np.empty([int(5)], dtype = object)          
+	cohete = np.empty([int(9)], dtype = object)          
 	#asignacion
-	saldo[int(0)] = 1000       
+	cohete[int(0)] = "   /|\   "       
 	#asignacion
-	saldo[int(1)] = 500       
+	cohete[int(1)] = "   |B|   "       
 	#asignacion
-	saldo[int(2)] = 0       
+	cohete[int(2)] = "   |O|   "       
 	#asignacion
-	saldo[int(3)] = 2500       
+	cohete[int(3)] = "   |M|   "       
 	#asignacion
-	saldo[int(4)] = 1000       
+	cohete[int(4)] = "   |B|   "       
 	#asignacion
-	usuarios[int(0)] = "5555"       
+	cohete[int(5)] = "  //|\\  "       
 	#asignacion
-	usuarios[int(1)] = "1111"       
+	cohete[int(6)] = " ******* "       
 	#asignacion
-	usuarios[int(2)] = "8888"       
+	cohete[int(7)] = "* * * * *"       
 	#asignacion
-	usuarios[int(3)] = "3333"       
-	#asignacion
-	usuarios[int(4)] = "2222"       
-	#asignacion
-	contador = 0       
-	#asignacion
-	busca = 0       
-	#asignacion
-	opc = 0       
-	#asignacion
-	monto = 0.0       
+	cohete[int(8)] = " * * * * "       
 
-	#estructura de control mientras
-	while( (contador != 4 ) ):       
+	#estructura de control para
+	i = 0 
+	for i in range (int(1), int(11) + 1):       
+		cls() 
 
-		#estructura de control si
-		if( (contador != 3 ) ):       
-			#escribir
-			print( "***** CAJERO AUTOMÁTICO *****" , sep="" )         
-			#escribir
-			print( "*                           *" , sep="" )         
-			#escribir
-			print( "*       INTENTO NRO " , contador + 1 , "       *" , sep="" )         
-			#escribir
-			print( "*                           *" , sep="" )         
-			#escribir
-			print( "*****************************" , sep="" )         
-			#escribir
-			print( " " , sep="" )         
-			#escribir
-			print( "CLAVE : " , sep="" )         
-			#leer
-			clave = input()        
+		#estructura de control para
+		j = 0 
+		for j in range (int(1), int(15) + 1):       
 			#escribir
 			print( "" , sep="" )         
-			cls() 
+		j += 1
 
-			#estructura de control para
-			f = 0 
-			for f in range (int(0), int(4) + 1, int(1)):       
-
-				#estructura de control si
-				if( (clave  ==  usuarios[f]) ):       
-					#asignacion
-					busca = f       
-					#asignacion
-					f = 5       
-			f += 1
-
-			#estructura de control si
-			if( (busca != 0) ):       
-				#asignacion
-				salir = 0       
-
-				#estructura de control mientras
-				while( (salir != 4) ):       
-					cls() 
-					#escribir
-					print( "******************************" , sep="" )         
-					#escribir
-					print( "*                            *" , sep="" )         
-					#escribir
-					print( "*    BIENVENIDOS AL BANCO    *" , sep="" )         
-					#escribir
-					print( "*                            *" , sep="" )         
-					#escribir
-					print( "******************************" , sep="" )         
-					#escribir
-					print( "" , sep="" )         
-					#escribir
-					print( "MENU DE OPCIONES" , sep="" )         
-					#escribir
-					print( "1. VER SALDO" , sep="" )         
-					#escribir
-					print( "2. DEPOSITO" , sep="" )         
-					#escribir
-					print( "3. RETIRO" , sep="" )         
-					#escribir
-					print( "4. SALIR" , sep="" )         
-					#escribir
-					print( "" , sep="" )         
-					#escribir
-					print( "OPCIÓN : " , sep="" )         
-					#leer
-					opc = eval(input())        
-					#escribir
-					print( "" , sep="" )         
-
-					#estructura de control segun
-					_expr5 = (opc)      
-					if (False):
-						pass
-					elif ( _expr5 == 1 ):   
-						#escribir
-						print( "SALDO ACTUAL : " , saldo[busca] , sep="" )         
-						input()
-					elif ( _expr5 == 2 ):   
-						#escribir
-						print( "MONTO A DEPOSITAR : " , sep="" )         
-						#leer
-						monto = eval(input())        
-						#asignacion
-						saldo[int(busca)] = saldo[busca] + monto       
-					elif ( _expr5 == 3 ):   
-						#escribir
-						print( "MONTO A RETIRAR : " , sep="" )         
-						#leer
-						monto = eval(input())        
-
-						#estructura de control si
-						if( (monto > saldo[busca]) ):       
-							#escribir
-							print( "!Error no dispone de ese Saldo!.." , sep="" )         
-							input()
-						else:              
-							#asignacion
-							saldo[int(busca)] = saldo[busca] - monto       
-					elif ( _expr5 == 4 ):   
-						#escribir
-						print( "Gracias por su vísita, regrese pronto..." , sep="" )         
-						#asignacion
-						salir = 4       
-						#asignacion
-						contador = 4       
-			else:              
-				#asignacion
-				contador = contador + 1       
-		else:              
+		#estructura de control para
+		j = 0 
+		for j in range (int(0), int(5) + 1):       
 			#escribir
-			print( "*****************************" , sep="" )         
+			print( cohete[j] , sep="" )         
+		j += 1
+		#escribir
+		print( "" , sep="" )         
+		#escribir
+		print( "Lanzamiento en " , 11-i , sep="" )         
+		time.sleep( 1 )
+	i += 1
+
+	#estructura de control para
+	i = 0 
+	for i in range (int(1), int(15) + 1):       
+		cls() 
+
+		#estructura de control para
+		j = 0 
+		for j in range (int(i), int(15) + 1):       
 			#escribir
-			print( "*                           *" , sep="" )         
+			print( "" , sep="" )         
+		j += 1
+
+		#estructura de control para
+		j = 0 
+		for j in range (int(0), int(7) + 1):       
 			#escribir
-			print( "*     TARJETA BLOQUEADA     *" , sep="" )         
+			print( cohete[j] , sep="" )         
+		j += 1
+
+		#estructura de control si
+		if( i>1 ):       
 			#escribir
-			print( "*                           * " , sep="" )         
-			#escribir
-			print( "*****************************" , sep="" )         
+			print( " * * * * " , sep="" )         
+		time.sleep( 1/i )
+	i += 1
+	#dimensionamiento
+	estado = np.empty([int(6)], dtype = object)          
+	#asignacion
+	estado[int(0)] = 3       
+	#asignacion
+	estado[int(1)] = 2       
+	#asignacion
+	estado[int(2)] = 1       
+	#asignacion
+	estado[int(3)] = 2       
+	#asignacion
+	estado[int(4)] = 3       
+	#asignacion
+	estado[int(5)] = 4       
+
+	#estructura de control para
+	i = 0 
+	for i in range (int(1), int(10) + 1):       
+		cls() 
+
+		#estructura de control para
+		j = 0 
+		for j in range (int(0), int(5) + 1):       
 			#asignacion
-			contador = 4       
+			estado[int(j)] = estado[j]-1       
+
+			#estructura de control segun
+			_expr3 = estado[j]      
+			if (False):
+				pass
+			elif ( _expr3 == 0 ):   
+				#asignacion
+				cohete[int(j)] = "    +    "       
+			elif ( _expr3 == -1 ):   
+				#asignacion
+				cohete[int(j)] = "   +X+   "       
+			elif ( _expr3 == -5 ):   
+				#asignacion
+				cohete[int(j)] = "   +X+   "       
+			elif ( _expr3 == -2 ):   
+				#asignacion
+				cohete[int(j)] = "  +XXX+  "       
+			elif ( _expr3 == -4 ):   
+				#asignacion
+				cohete[int(j)] = "  +XXX+  "       
+			elif ( _expr3 == -3 ):   
+				#asignacion
+				cohete[int(j)] = " +XXXXX+ "       
+			elif ( _expr3 == -6 ):   
+				#asignacion
+				cohete[int(j)] = "         "       
+			#escribir
+			print( cohete[j] , sep="" )         
+		j += 1
+		time.sleep( 0.2 )
+	i += 1
 
 if __name__=="__main__":     
 	     main()
