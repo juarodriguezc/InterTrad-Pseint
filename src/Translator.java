@@ -24,7 +24,7 @@ public class Translator {
             walker.walk(new PSeintToPython(), tree);
             System.out.println(); // print a \n after translation
         } catch (Exception e){
-            System.err.println("Error léxico / sintáctico. " + e);
+            System.err.println("Error en el análisis léxico / sintáctico / semántico. " + e);
         }
 
 

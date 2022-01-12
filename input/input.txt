@@ -1,21 +1,120 @@
+Algoritmo Cajero_Automatico
+
+    Definir saldo, monto como Real;
+    Definir f, contador, busca, opc, salir como Entero;
+    Definir usuarios, clave como Caracter;
+    Dimension saldo[5];
+    Dimension usuarios[5];	//5 USUARIOS
+
+    //SALDO	DEL CLIENTE
+    saldo[0] <- 1000;
+    saldo[1] <- 500;
+    saldo[2] <- 0;
+    saldo[3] <- 2500;
+    saldo[4] <- 1000;
+
+    // CLAVES DE ACCESO
+    usuarios[0] <- '5555';
+    usuarios[1] <- '1111';
+    usuarios[2] <- '8888';
+    usuarios[3] <- '3333';
+    usuarios[4] <- '2222';
+
+    contador <- 0;
+    busca <- 0;
+    opc <- 0;
+    monto <- 0.0;
+
+    Mientras (contador <> 4 ) Hacer
+
+        Si (contador <> 3 ) Entonces
+
+            Escribir "***** CAJERO AUTOMÁTICO *****";
+            Escribir "*                           *";
+            Escribir "*       INTENTO NRO ", contador + 1, "       *";
+            Escribir "*                           *";
+            Escribir "*****************************";
+            Escribir " ";
+            Escribir "CLAVE : ";
+            Leer clave;
+
+            Escribir "";
 
 
 
-Proceso sin_titulo
-	definir a como entero;
-	dimension a[5,5];
-	leer a[0,0];
-    si a[0,0]>5 Entonces
-        Escribir "siuuuu";
-    SiNo
-        Escribir "nooouuu";
-    FinSi
-    segun a[0,0] hacer
-        0:
-            escribir "0";
-        1:
-            escribir "1";
-        de otro modo:
-            escribir "diferente";
-    finsegun
-FinProceso
+
+
+
+            Limpiar Pantalla;
+
+            Para f <- 0 hasta 4 con paso 1 hacer
+                Si (clave = usuarios[f]) Entonces
+                    busca <- f;
+                    f <- 5;
+                FinSi
+            FinPara
+
+            Si (busca <> 0) Entonces
+                salir <- 0;
+                Mientras (salir <> 4) Hacer
+                    Limpiar Pantalla;
+                    Escribir "******************************";
+                    Escribir "*                            *";
+                    Escribir "*    BIENVENIDOS AL BANCO    *";
+                    Escribir "*                            *";
+                    Escribir "******************************";
+                    Escribir "";
+                    Escribir "MENU DE OPCIONES";
+                    Escribir "1. VER SALDO";
+                    Escribir "2. DEPOSITO";
+                    Escribir "3. RETIRO";
+                    Escribir "4. SALIR";
+                    Escribir "";
+                    Escribir "OPCIÓN : ";
+                    Leer opc;
+                    Escribir "";
+
+
+
+
+
+                    Segun (opc) Hacer
+                        1: 	Escribir "SALDO ACTUAL : ", saldo[busca];
+                            Esperar Tecla;
+
+                        2: 	Escribir "MONTO A DEPOSITAR : ";
+                            Leer monto;
+                            saldo[busca] <- saldo[busca] + monto;
+
+                        3: Escribir "MONTO A RETIRAR : ";
+                            Leer monto;
+
+                            Si (monto > saldo[busca]) Entonces
+                                Escribir "!Error no dispone de ese Saldo!..";
+                                Esperar Tecla;
+                            SiNo
+                                saldo[busca] <- saldo[busca] - monto;
+                            FinSi
+
+                        4: 	Escribir "Gracias por su vísita, regrese pronto...";
+                            salir <- 4;
+                            contador <- 4;
+                    FinSegun
+                FinMientras
+
+            SiNo
+                contador <- contador + 1;
+            FinSi
+
+        SiNo
+            Escribir "*****************************";
+            Escribir "*                           *";
+            Escribir "*     TARJETA BLOQUEADA     *";
+            Escribir "*                           * ";
+            Escribir "*****************************";
+            contador <- 4;
+        FinSi
+
+    FinMientras
+
+FinAlgoritmo

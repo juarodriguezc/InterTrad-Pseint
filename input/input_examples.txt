@@ -1,0 +1,460 @@
+//Ejemplo 1 - Suma de numeros
+// este es el ejemplo más simple de esta ayuda,
+// toma dos numeros, los suma y muestra el resultado
+
+Proceso Suma
+
+    Definir A,B,C como Reales;
+
+    // para cargar un dato, se le muestra un mensaje al usuario
+    // con la instrucción Escribir, y luego se lee el dato en
+    // una variable (A para el primero, B para el segundo) con
+    // la instrucción Leer
+
+    Escribir "Ingrese el primer numero:";
+    Leer A;
+
+    Escribir "Ingrese el segundo numero:";
+    Leer B;
+
+
+    // ahora se calcula la suma y se guarda el resultado en la
+    // variable C mediante la asignación (<-)
+
+    C <- A+B;
+
+
+    // finalmente, se muestra el resultado, precedido de un
+    // mensaje para avisar al usuario, todo en una sola
+    // instrucción Escribir
+
+    Escribir "El resultado es: ",C;
+
+FinProceso
+
+
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 2 - Mayores
+// Busca los dos mayores de una lista de N datos
+
+Proceso Mayores
+
+    Definir datos,n,may1,may2,i Como Numeros;
+    // primero se declara un arreglo de 200 elementos
+    Dimension datos[200];
+
+    // luego se pide al usuario ingresar la cantidad de datos,
+    // que no debera ser mayor a 200
+    Escribir "Ingrese la cantidad de datos (de 2 a 200):";
+    Leer n;
+
+    // se leen uno por uno los 200 datos y se los guarda en el arreglo
+    Para i<-0 Hasta n-1 Hacer
+        Escribir "Ingrese el dato ",i+1,":";
+        Leer datos[i];
+    FinPara
+
+    // se comparan los dos primeros y se toman como may1 (el mayor de los
+    // dos) y may2 (el segundo mayor).
+    Si datos[0]>datos[1] Entonces
+        may1<-datos[0];
+        may2<-datos[1];
+    Sino
+        may1<-datos[1];
+        may2<-datos[0];
+    FinSi
+    // se recorren los demas elementos buscan si hay alguno mayor que may1 o may2
+    Para i<-2 Hasta n-1 Hacer
+        Si datos[i]>may1 Entonces // si hay un valor mayor que may1
+            may2<-may1; // como may1 era el más grande, pasa a estar en segundo lugar
+            may1<-datos[i]; // y el nuevo dato toma el primer puesto (mayor de todos)
+        Sino // si no era mas grande que may1, todavia puede ser mas grande que may2
+            Si datos[i]>may2 Entonces // si supera al segundo mayor que teniamos
+                may2<-datos[i]; // se lo guarda como segundo mayor
+            FinSi
+        FinSi
+    FinPara
+
+    // se muestran los resultados
+    Escribir "El mayor es: ",may1;
+    Escribir "El segundo mayor es: ",may2;
+
+FinProceso
+
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 3 - promedio
+// Calcula el promedio de una lista de N datos
+
+Proceso Promedio
+
+    Definir i,N como Entero;
+    Definir acum,dato,prom como Reales;
+    Escribir "Ingrese la cantidad de datos:";
+    Leer n;
+
+    acum<-0;
+
+    Para i<-1 Hasta n Hacer
+        Escribir "Ingrese el dato ",i,":";
+        Leer dato;
+        acum<-acum+dato;
+    FinPara
+
+    prom<-acum/n;
+
+    Escribir "El promedio es: ",prom;
+
+FinProceso
+
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 4 - area triangulo rectangulo
+//    Lee los tres lados de un triangulo rectangulo, determina
+// si corresponden (por Pitargoras) y en caso afirmativo
+// calcula el area
+
+Proceso TrianguloRectangulo
+
+
+    // cargar datos
+    Definir l1,l2,l3 Como Real;
+    Escribir "Ingrese el lado 1:";
+    Leer l1;
+    Escribir "Ingrese el lado 2:";
+    Leer l2;
+    Escribir "Ingrese el lado 3:";
+    Leer l3;
+
+    // encontrar la hipotenusa (mayor lado)
+    Definir cat1,cat2,hip Como Real;
+    Si l1>l2 Entonces
+        cat1<-l2;
+        Si l1>l3 Entonces
+            hip<-l1;
+            cat2<-l3;
+        Sino
+            hip<-l3;
+            cat2<-l1;
+        FinSi
+    Sino
+        cat1<-l1;
+        Si l2>l3 Entonces
+            hip<-l2;
+            cat2<-l3;
+        Sino
+            hip<-l3;
+            cat2<-l2;
+        FinSi
+    FinSi
+
+    // ver si cumple con Pitagoras
+    Si hip^2 = cat1^2 + cat2^2 Entonces
+        // calcualar area
+        Definir area como real;
+        area<-(cat1*cat2)/2;
+        Escribir "El area es: ",area;
+    Sino
+        Escribir "No es un triangulo rectangulo.";
+    FinSi
+
+FinProceso
+
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 5 - Ordenar lista de nombres
+
+//   Se ingresa una lista de nombres (la lista termina
+// cuando se ingresa un nombre en blanco) no permitiendo
+// ingresar repetidos y luego se ordena y muestra
+
+Proceso OrdenaLista
+
+    Definir nombre,lista,aux Como Cadenas;
+    Definir se_repite Como Logico;
+    Definir cant,i,j,pos_menor Como Enteros;
+    Dimension lista[200];
+
+    Escribir "Ingrese los nombres (enter en blanco para terminar):";
+
+    // leer la lista
+    cant<-0;
+    Leer nombre;
+    Mientras nombre<>"" Hacer
+        lista[cant]<-nombre;
+        cant<-cant+1;
+        Repetir // leer un nombre y ver que no este ya en la lista
+            Leer nombre;
+            se_repite<-Falso;
+            Para i<-0 Hasta cant-1 Hacer
+                Si nombre=lista[i] Entonces
+                    se_repite<-Verdadero;
+                FinSi
+            FinPara
+        Hasta Que ~ se_repite
+    FinMientras
+
+    // ordenar
+    Para i<-0 Hasta cant-2 Hacer
+        // busca el menor entre i y cant
+        pos_menor<-i;
+        Para j<-i+1 Hasta cant-1 Hacer
+            Si lista[j]<lista[pos_menor] Entonces
+                pos_menor<-j;
+            FinSi
+        FinPara
+        // intercambia el que estaba en i con el menor que encontro
+        aux<-lista[i];
+        lista[i]<-lista[pos_menor];
+        lista[pos_menor]<-aux;
+    FinPara
+
+    // mostrar como queda la lista
+    Escribir "La lista ordenada es:";
+    Para i<-0 Hasta cant-1 Hacer
+        Escribir "   ",lista[i];
+    FinPara
+
+FinProceso
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 7 - Modulo
+Proceso Modulo
+    Definir N,M Como Enteros;
+    Escribir "Ingrese el numero: ";
+    Leer N;
+    Escribir "Ingrese el divisor: ";
+    Leer M;
+    Si N % M = 0 Entonces
+        Escribir M," es divisor exacto de ",N,".";
+    Sino
+        Escribir "El resto de dividir ",N," por ",M," es: ",N % M;
+    FinSi
+FinProceso
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 8 - Menú simple
+// Muestra como hacer un menú simple con las estructuras Repetir-Hasta Que y Según
+
+Proceso sin_titulo
+    Definir OP Como Entero;
+    Repetir
+        // mostrar menu
+        Limpiar Pantalla;
+        Escribir "Menú de recomendaciones";
+        Escribir "   1. Literatura";
+        Escribir "   2. Cine";
+        Escribir "   3. Música";
+        Escribir "   4. Videojuegos";
+        Escribir "   5. Salir";
+        // ingresar una opcion
+        Escribir "Elija una opción (1-5): ";
+        Leer OP;
+        // procesar esa opción
+        Segun OP Hacer
+            1:
+                Escribir "Lecturas recomendables:";
+                Escribir " + Esperándolo a Tito y otros cuentos de fúbol (Eduardo Sacheri)";
+                Escribir " + El juego de Ender (Orson Scott Card)";
+                Escribir " + El sueño de los héroes (Adolfo Bioy Casares)";
+            2:
+                Escribir "Películas recomendables:";
+                Escribir " + Matrix (1999)";
+                Escribir " + El último samuray (2003)";
+                Escribir " + Cars (2006)";
+            3:
+                Escribir "Discos recomendables:";
+                Escribir " + Despedazado por mil partes (La Renga, 1996)";
+                Escribir " + Búfalo (La Mississippi, 2008)";
+                Escribir " + Gaia (Mägo de Oz, 2003)";
+            4:
+                Escribir "Videojuegos clásicos recomendables";
+                Escribir " + Día del tentáculo (LucasArts, 1993)";
+                Escribir " + Terminal Velocity (Terminal Reality/3D Realms, 1995)";
+                Escribir " + Death Rally (Remedy/Apogee, 1996)";
+            5:
+                Escribir "Gracias, vuelva prontos";
+            De otro modo:
+                Escribir "Opción no válida";
+        FinSegun
+        Escribir "Presione enter para continuar";
+        Esperar Tecla;
+    Hasta Que OP=5
+FinProceso
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 9 - Funcion potencia recursiva
+// Implementación del cálculo de una potencia mediante una función recursiva
+// El paso recursivo se basa en que A^B = B*(A^(B-1))
+// El paso base se base en que A^0 = 1
+
+SubProceso  resultado <- Potencia (base, exponente)
+    Definir resultado como Entero;
+    Si exponente=0 Entonces
+        resultado <- 1;
+    sino
+        resultado <- base*Potencia(base,exponente-1);
+    FinSi
+FinSubProceso
+
+Proceso DosALaDiezRecursivo
+    Definir exponente como Entero;
+    Definir base como Entero;
+    Escribir "Ingrese Base";
+    Leer base;
+    Escribir "Ingrese Exponente";
+    Leer exponente;
+    Escribir "El resultado es ",Potencia(base,exponente);
+FinProceso
+
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 10 - Funcion promedio
+// Calcula el promedio de una lista de N datos utilizando un SubProceso
+
+SubProceso prom <- Promedio ( arreglo, cantidad )
+    Definir i como Entero;
+    Definir suma como Real;
+    Definir prom como Real;
+    suma <- 0;
+    Para i<-0 Hasta cantidad-1 Hacer
+        suma <- suma + arreglo[i];
+    FinPara
+    prom <- suma/cantidad;
+FinSubProceso
+
+Proceso Principal
+
+    Definir i,N como Entero;
+    Definir acum,datos,prom como Reales;
+    Dimension datos[100];
+    Escribir "Ingrese la cantidad de datos:";
+    Leer n;
+
+    Para i<-0 Hasta n-1 Hacer
+        Escribir "Ingrese el dato ",i+1,":";
+        Leer datos[i];
+    FinPara
+
+    Escribir "El promedio es: ",Promedio(datos,n);
+
+FinProceso
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 11 - Animacion misil
+Proceso Misil
+
+    Escribir "Presione una tecla para iniciar el lanzamiento!";
+    Esperar Tecla;
+
+    Definir cohete como Texto;
+    Definir i,j,estado como Enteros;
+
+    // el arreglo cohete tiene el dibujo del cohete como lineas de texto
+    dimension cohete[9];
+    cohete[0]<-"   /|\   ";
+    cohete[1]<-"   |B|   ";
+    cohete[2]<-"   |O|   ";
+    cohete[3]<-"   |M|   ";
+    cohete[4]<-"   |B|   ";
+    cohete[5]<-"  //|\\  ";
+    cohete[6]<-" ******* ";
+    cohete[7]<-"* * * * *";
+    cohete[8]<-" * * * * ";
+
+    // primero se muestra la primer parte del dibujo y la cuenta regresiva
+    Para i<-1 hasta 11 Hacer
+        Borrar Pantalla;
+        Para j<-1 hasta 15 Hacer
+            Escribir "";
+        FinPara
+        Para j<-0 hasta 5 Hacer
+            Escribir cohete[j];
+        FinPara
+        Escribir "";
+        Escribir "Lanzamiento en ",11-i;
+        Esperar 1 Segundo;
+    FinPara
+
+    // despues se muestra el dibujo completo y cada vez mas arriba
+    Para i<-1 hasta 15 Hacer
+        Borrar Pantalla;
+        Para j<-i hasta 15 Hacer
+            Escribir "";
+        FinPara
+        Para j<-0 hasta 7 Hacer
+            Escribir cohete[j];
+        FinPara
+        si i>1 Entonces
+            Escribir " * * * * ";
+        finsi
+        Esperar 1/i Segundo;
+    FinPara
+
+    // finalmente se va modificando el dibujo para hacer la explosion
+    // estado tiene un entero que dice en que parte de la explosion va cada linea del dibujo
+    Dimension estado[6];
+    estado[0]<-3; estado[1]<-2; estado[2]<-1;
+    estado[3]<-2; estado[4]<-3; estado[5]<-4;
+    Para i<-1 hasta 10 Hacer
+        Borrar Pantalla;
+        Para j<-0 hasta 5 Hacer
+            Estado[j]<-Estado[j]-1;
+            segun Estado[j] Hacer
+                0:  cohete[j]<-"    +    ";
+                -1: cohete[j]<-"   +X+   ";
+                -5: cohete[j]<-"   +X+   ";
+                -2: cohete[j]<-"  +XXX+  ";
+                -4: cohete[j]<-"  +XXX+  ";
+                -3: cohete[j]<-" +XXXXX+ ";
+                -6: cohete[j]<-"         ";
+            FinSegun
+            Escribir cohete[j];
+        FinPara
+
+        Esperar 0.2 Segundos;
+    FinPara
+
+FinProceso
+
+
+----------------------------------------------------------------------------------------------------
+//Ejemplo 12 - Ordenamiento
+Algoritmo Array_Unidimencional_04
+
+	Definir lista, f, fx, A como Entero;
+	Dimension lista[10];
+
+    //Ingresa 10 números aleatorios al array
+    Para f <- 0 hasta 9 con paso 1 hacer
+        Escribir "Ingrese Número ", f, " : ";
+        Leer lista[f];
+    FinPara
+
+    //Ordena Array de forma Ascendente
+    Para f <- 0 hasta 9 con paso 1 hacer
+        Para fx <- f hasta 9 con paso 1 hacer
+            Si lista[f] > lista[fx] Entonces
+                A <- lista[f];
+                lista[f] <- lista[fx];
+                lista[fx] <- A;
+            FinSi
+        FinPara
+    FinPara
+
+    //Muestra Array Ordenado
+    Para f <- 0 hasta 9 con paso 1 hacer
+        Escribir lista[f];
+    FinPara
+
+FinAlgoritmo

@@ -98,15 +98,18 @@ func_par        : expr (COMA expr)*
 leer            : LEER ID (COR_IZQ array_pos COR_DER)? (COMA ID (COR_IZQ array_pos COR_DER)?)* PYC;
 escribir        : ESCRIBIR expr (COMA expr)* PYC;
 si              : siparte sino? FINSI;
-siparte         : SI expr ENTONCES command+;
-sino            : SINO command+;
+siparte         : SI expr ENTONCES commands;
+sino            : SINO commands;
 //segun           : SEGUN expr HACER (CASO expr DOSP command+)* (DE OTRO MODO DOSP command+)? FINSEGUN;
 segun           : SEGUN expr HACER cases* defcase? FINSEGUN;
-cases           : expr DOSP command+;
-defcase         : DE OTRO MODO DOSP command+;
-mientras        : MIENTRAS expr HACER command+ FINMIENTRAS;
-repetir         : REPETIR commands HASTA QUE expr;
-para            : PARA ID(COR_IZQ array_pos COR_DER)? ASIG expr HASTA expr (CON PASO expr)? HACER commands FINPARA;
+cases           : expr DOSP commands;
+defcase         : DE OTRO MODO DOSP commands;
+mientras        : MIENTRAS expr HACER commands FINMIENTRAS;
+repetir         : repcomm repcond;
+repcomm         : REPETIR commands;
+repcond         : HASTA QUE expr;
+para            : PARA ID(COR_IZQ array_pos COR_DER)? ASIG expr HASTA expr parapaso? HACER commands FINPARA;
+parapaso        : CON PASO expr;
 borrar          : (BORRAR | LIMPIAR) PANTALLA PYC;
 esperar         : ESPERAR (tiempo|tecla) PYC;
 
@@ -165,7 +168,9 @@ LIMPIAR         : L I M P I A R;
 PANTALLA        : P A N T A L L A ;
 
 ESPERAR         : E S P E R A R;
-SEGUNDOS        : S E G U N D O S;
+SEGUNDOS        : S E G U N D O S
+                | S E G U N D O
+                ;
 MILISEGUNDOS    : M I L I S E G U N D O S;
 TECLA           : T E C L A;
 
@@ -175,9 +180,12 @@ T_DATO          : T_NUM
                 ;
 
 T_NUM           : E N T E R O
+                | E N T E R O S
                 | N U M E R O
+                | N U M E R O S
                 | N U M E R I C O
                 | R E A L
+                | R E A L E S
                 ;
 
 T_LOGICO        : L O G I C O;
@@ -185,6 +193,7 @@ T_LOGICO        : L O G I C O;
 T_CARAC         : C A R A C T E R
                 | T E X T O
                 | C A D E N A
+                | C A D E N A S
                 ;
 
 TD_REAL         : [0-9]+([.][0-9]+);

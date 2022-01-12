@@ -317,6 +317,26 @@ public interface PseintGrammarListener extends ParseTreeListener {
 	 */
 	void exitRepetir(PseintGrammarParser.RepetirContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PseintGrammarParser#repcomm}.
+	 * @param ctx the parse tree
+	 */
+	void enterRepcomm(PseintGrammarParser.RepcommContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PseintGrammarParser#repcomm}.
+	 * @param ctx the parse tree
+	 */
+	void exitRepcomm(PseintGrammarParser.RepcommContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PseintGrammarParser#repcond}.
+	 * @param ctx the parse tree
+	 */
+	void enterRepcond(PseintGrammarParser.RepcondContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PseintGrammarParser#repcond}.
+	 * @param ctx the parse tree
+	 */
+	void exitRepcond(PseintGrammarParser.RepcondContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PseintGrammarParser#para}.
 	 * @param ctx the parse tree
 	 */
@@ -326,6 +346,16 @@ public interface PseintGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPara(PseintGrammarParser.ParaContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PseintGrammarParser#parapaso}.
+	 * @param ctx the parse tree
+	 */
+	void enterParapaso(PseintGrammarParser.ParapasoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PseintGrammarParser#parapaso}.
+	 * @param ctx the parse tree
+	 */
+	void exitParapaso(PseintGrammarParser.ParapasoContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PseintGrammarParser#borrar}.
 	 * @param ctx the parse tree

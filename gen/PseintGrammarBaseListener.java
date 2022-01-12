@@ -387,6 +387,30 @@ public class PseintGrammarBaseListener implements PseintGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRepcomm(PseintGrammarParser.RepcommContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRepcomm(PseintGrammarParser.RepcommContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRepcond(PseintGrammarParser.RepcondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRepcond(PseintGrammarParser.RepcondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPara(PseintGrammarParser.ParaContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -394,6 +418,18 @@ public class PseintGrammarBaseListener implements PseintGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPara(PseintGrammarParser.ParaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParapaso(PseintGrammarParser.ParapasoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParapaso(PseintGrammarParser.ParapasoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

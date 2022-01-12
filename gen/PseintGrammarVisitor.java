@@ -196,11 +196,29 @@ public interface PseintGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRepetir(PseintGrammarParser.RepetirContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PseintGrammarParser#repcomm}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRepcomm(PseintGrammarParser.RepcommContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PseintGrammarParser#repcond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRepcond(PseintGrammarParser.RepcondContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PseintGrammarParser#para}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPara(PseintGrammarParser.ParaContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PseintGrammarParser#parapaso}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParapaso(PseintGrammarParser.ParapasoContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PseintGrammarParser#borrar}.
 	 * @param ctx the parse tree
